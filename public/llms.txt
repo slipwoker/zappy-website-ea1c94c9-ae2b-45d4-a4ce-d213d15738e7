@@ -1,0 +1,100 @@
+# ELVI — Generative Engine Optimization Map
+
+> תבנה לי אתר בגדים
+
+---
+
+## Pages
+
+### Home
+https://example.com
+Discover fashion inspired by icons like nixon &amp; elvis and aaron elvis presley. ELVI brings bold, legendary style to your wardrobe. Shop the collection today.
+
+### About
+https://example.com/about
+ELVI was born from the spirit of icons like dean z as elvis and aaron elvis presley. Learn how our passion for legendary style shapes every piece we create.
+
+### Style Guide
+https://example.com/style-guide
+Master your look with ELVI&#39;s expert style guide, channeling nixon and elvis energy into every outfit. Unlock curated tips, iconic pairings, and trend-setting fashion advice.
+
+### Contact
+https://example.com/contact
+Have questions about our aaron elvis presley-inspired collections? Connect with the ELVI team today and let us help you find your signature legendary style. We&#39;re here for you.
+
+### Products
+https://example.com/products
+Our Products - ELVI
+
+### Cart
+https://example.com/cart
+Your Cart
+
+### Checkout
+https://example.com/checkout
+Checkout
+
+### Login
+https://example.com/login
+Customer Login
+
+### Account
+https://example.com/account
+My Account
+
+### Order Success
+https://example.com/order-success
+Thank you for your order
+
+### Product Detail
+https://example.com/product/:slug
+Product Details - ELVI
+
+### Category
+https://example.com/category/:slug
+Products - ELVI
+
+## Legal & Policy
+
+### Privacy Policy
+https://example.com/privacy
+Information about how user data is collected, stored, and protected.
+
+### Terms & Conditions
+https://example.com/terms
+Legal terms describing service usage, rights, and policies.
+
+### Accessibility Statement
+https://example.com/accessibility
+Information about WCAG compliance and accessibility features.
+
+---
+
+## Products
+
+_No products are currently configured._
+
+---
+
+# Business Context (for LLM understanding)
+
+## About ELVI
+תבנה לי אתר בגדים
+
+## Target Audience
+- Urban Trendsetters
+- Sustainable Fashion Enthusiasts
+- Fashion-Conscious Parents
+
+## Industry
+Fashion & Apparel
+
+---
+
+# Machine-readable feeds
+
+- Sitemap (XML): https://example.com/sitemap.xml
+- Robots: https://example.com/robots.txt
+- Flattened page text (for LLMs): https://example.com/llms-full.txt
+- Products (JSON): https://example.com/products.json
+- Products (Google Merchant RSS): https://example.com/product-feed.xml

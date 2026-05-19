@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>Nixon &amp; Elvis Style Starts Here — ELVI</title>
+    <meta name="description" content="Discover fashion inspired by icons like nixon &amp; elvis and aaron elvis presley. ELVI brings bold, legendary style to your wardrobe. Shop the collection today.">
+    <meta name="keywords" content="nixon & elvis, nixon and elvis, ELVI fashion, iconic apparel, bold clothing">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Zappy Analytics -->
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  var config = {
+    websiteId: 'ea1c94c9-ae2b-45d4-a4ce-d213d15738e7',
+    apiUrl: 'https://api.zappy5.com/api/analytics/track',
+    sessionDuration: 30 * 60 * 1000, // 30 minutes
+    visitorDuration: 30 * 24 * 60 * 60 * 1000, // 30 days
+    trackPageViews: true,
+    trackClicks: true,
+    trackFormSubmissions: true
+  };
+  
+  // Generate or retrieve persistent visitor ID (30 days)
+  function getVisitorId() {
+    var visitorKey = 'zappy_visitor_' + config.websiteId;
+    var visitor = null;
+    
+    try {
+      visitor = localStorage.getItem(visitorKey);
+      if (visitor) {
+        var visitorData = JSON.parse(visitor);
+        var now = Date.now();
+        
+        // Check if visitor ID is still valid (30 days)
+        if (now - visitorData.created < config.visitorDuration) {
+          // Update last seen timestamp
+          visitorData.lastSeen = now;
+          localStorage.setItem(visitorKey, JSON.stringify(visitorData));
+          return visitorData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: LocalStorage not available');
+    }
+    
+    // Generate new visitor ID
+    var newVisitorId = 'zv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      localStorage.setItem(visitorKey, JSON.stringify({
+        id: newVisitorId,
+        created: Date.now(),
+        lastSeen: Date.now()
+      }));
+    } catch (e) {
+      // Continue without local storage
+    }
+    
+    return newVisitorId;
+  }
+  
+  // Generate or retrieve session ID (30 minutes)
+  function getSessionId() {
+    var sessionKey = 'zappy_session_' + config.websiteId;
+    var session = null;
+    
+    try {
+      session = sessionStorage.getItem(sessionKey);
+      if (session) {
+        var sessionData = JSON.parse(session);
+        var now = Date.now();
+        
+        // Check if session is still valid
+        if (now - sessionData.timestamp < config.sessionDuration) {
+          // Update timestamp
+          sessionData.timestamp = now;
+          sessionStorage.setItem(sessionKey, JSON.stringify(sessionData));
+          return sessionData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: SessionStorage not available');
+    }
+    
+    // Generate new session ID
+    var newSessionId = 'zs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      sessionStorage.setItem(sessionKey, JSON.stringify({
+        id: newSessionId,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      // Continue without session storage
+    }
+    
+    return newSessionId;
+  }
+  
+  var visitorId = getVisitorId();
+  var sessionId = getSessionId();
+  
+  // Track an event
+  function trackEvent(eventType, data) {
+    data = data || {};
+    
+    var eventData = {
+      website_id: config.websiteId,
+      event_type: eventType,
+      page_path: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      visitor_id: visitorId,
+      session_id: sessionId,
+      metadata: data
+    };
+    
+    // Use sendBeacon if available (better for page unload events)
+    if (navigator.sendBeacon) {
+      var blob = new Blob([JSON.stringify(eventData)], { type: 'application/json' });
+      navigator.sendBeacon(config.apiUrl, blob);
+    } else {
+      // Fallback to fetch
+      fetch(config.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData),
+        keepalive: true
+      }).catch(function(error) {
+        console.warn('Zappy Analytics: Failed to track event', error);
+      });
+    }
+  }
+  
+  // Track page view
+  if (config.trackPageViews) {
+    trackEvent('pageview', {
+      title: document.title,
+      url: window.location.href
+    });
+  }
+  
+  // Track clicks on important elements
+  if (config.trackClicks) {
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      // Track button clicks (counted as actions)
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        var button = target.tagName === 'BUTTON' ? target : target.closest('button');
+        trackEvent('click', {
+          element: 'button',
+          text: button.textContent.trim().substring(0, 100),
+          id: button.id || null,
+          class: button.className || null
+        });
+      }
+      
+      // Track link clicks (navigation - not counted as actions)
+      else if (target.tagName === 'A' || target.closest('a')) {
+        var link = target.tagName === 'A' ? target : target.closest('a');
+        trackEvent('navigation', {
+          element: 'link',
+          text: link.textContent.trim().substring(0, 100),
+          href: link.href,
+          external: link.hostname !== window.location.hostname
+        });
+      }
+    }, true);
+  }
+  
+  // Track form submissions
+  if (config.trackFormSubmissions) {
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      
+      trackEvent('form_submit', {
+        form_id: form.id || null,
+        form_name: form.name || null,
+        form_action: form.action || null,
+        form_method: form.method || 'GET'
+      });
+    }, true);
+  }
+  
+  // Track time on page (send on page unload)
+  var pageLoadTime = Date.now();
+  
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // in seconds
+    
+    trackEvent('page_unload', {
+      time_on_page: timeOnPage,
+      page_path: window.location.pathname
+    });
+  });
+  
+  // Expose tracking function globally for custom events
+  window.zappyAnalytics = {
+    track: trackEvent,
+    getVisitorId: function() { return visitorId; },
+    getSessionId: function() { return sessionId; }
+  };
+  
+})();
+</script>
+<!-- End Zappy Analytics -->
+    <meta property="og:title" content="Nixon &amp; Elvis Style Starts Here — ELVI">
+    <meta property="og:description" content="Discover fashion inspired by icons like nixon &amp; elvis and aaron elvis presley. ELVI brings bold, legendary style to your wardrobe. Shop the collection today.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Nixon &amp; Elvis Style Starts Here — ELVI">
+    <meta name="twitter:description" content="Discover fashion inspired by icons like nixon &amp; elvis and aaron elvis presley. ELVI brings bold, legendary style to your wardrobe. Shop the collection today.">
+    <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .skip-link { position: absolute; top: 0; left: 0; transform: translateY(-200%); padding: 12px 18px; background: var(--bg-dark, #1a1a1a); color: var(--text-light, #fff); font-weight: 600; border-radius: 0 0 8px 0; z-index: 10000; }
+    .skip-link:focus { transform: none; outline: 2px solid var(--ring, #fff); outline-offset: 2px; }
+    :focus-visible { outline: 2px solid var(--ring, currentColor); outline-offset: 3px; }
+  </style>
+
+
+  
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    <!-- Mickidum Accessibility Toolbar -->
+    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+    <link rel="stylesheet" href="/styles.css">
+
+    <style id="zappy-dropdown-submenu-styles">
+      /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
+      /* Base styles for dropdown submenus - parent must be positioned */
+      .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
+      /* Submenu base - hidden by default */
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      /* CRITICAL: Desktop hover styles to show dropdown */
+      .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Submenu item styling */
+      .sub-menu li { list-style: none; margin: 0; padding: 0; }
+      .sub-menu a { display: block !important; padding: 10px 16px !important; color: var(--text-dark, #333) !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+      [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 10px !important; padding-right: 28px !important; }
+      .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+      .sub-menu a:hover { background-color: #f5f5f5; }
+      /* RTL (Hebrew/Arabic) dropdown positioning */
+      [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
+      /* Hide empty dropdown menus (exclude catalog sub-menus that use <a> children instead of <li>) */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))):not(:has(> a)), .sub-menu:not(:has(li)):not(:has(> a)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Desktop: show submenu on Menu Group hover */
+      li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Menu Group title styling */
+      .nav-menu > li > .menu-group-title, #navMenu > li > .menu-group-title { display: inline-block; padding: 0.5rem 1rem; cursor: default; user-select: none; }
+      
+      /* ========== MOBILE SUBMENU STYLES ========== */
+      @media (max-width: 768px) {
+        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
+        .navbar .sub-menu.mobile-expanded, .nav-menu .sub-menu.mobile-expanded, #navMenu .sub-menu.mobile-expanded { max-height: none !important; overflow-y: visible !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
+        /* Disable hover behavior on mobile */
+        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
+        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; position: relative !important; min-height: 44px !important; }
+        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; min-width: 0 !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; min-width: 0 !important; padding: 0 !important; line-height: inherit !important; }
+        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu, .navbar li:has(.sub-menu) > .sub-menu, #navMenu li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
+        .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: auto !important; background: transparent !important; border: none !important; cursor: pointer !important; color: var(--text-dark) !important; position: static !important; flex-shrink: 0 !important; align-self: stretch !important; z-index: 2 !important; padding: 0 !important; margin: 0 !important; }
+        .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
+        .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; color: var(--text-dark) !important; white-space: normal !important; }
+        .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+        [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 0 !important; padding-right: 28px !important; }
+        .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+        .nav-menu.active, #navMenu.active { max-width: 100vw !important; overflow-x: hidden !important; box-sizing: border-box !important; }
+        .navbar .sub-menu li a, nav.navbar .sub-menu li a, .zappy-products-dropdown .sub-menu a { color: var(--text-dark) !important; }
+      }
+      @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
+    </style>
+
+    <style id="zappy-widget-visibility">
+      html[dir="rtl"] .whatsapp-float { right: 20px !important; left: auto !important; }
+      html[dir="ltr"] .whatsapp-float, html:not([dir]) .whatsapp-float { left: 20px !important; right: auto !important; }
+      html[dir="rtl"] #mic-access-tool-general-button, html[dir="rtl"] .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="rtl"] ._access-icon { left: 20px !important; right: auto !important; }
+      html[dir="ltr"] #mic-access-tool-general-button, html[dir="ltr"] .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="ltr"] ._access-icon,
+      html:not([dir]) #mic-access-tool-general-button, html:not([dir]) .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool #mic-access-tool-general-button,
+      html:not([dir]) ._access-icon { right: 20px !important; left: auto !important; }
+      @media (max-width: 768px) { .whatsapp-float { display: flex !important; } }
+      @media (min-width: 769px) { .whatsapp-float { display: flex !important; } }
+      @media (max-width: 768px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box.opened-mic-access-tool, .mic-access-tool-box.opened-mic-access-tool,
+        #mic-init-access-tool #mic-access-tool-box.opened-mic-access-tool {
+          visibility: visible !important; opacity: 1 !important; pointer-events: auto !important;
+        }
+      }
+      @media (min-width: 769px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box.opened-mic-access-tool, .mic-access-tool-box.opened-mic-access-tool,
+        #mic-init-access-tool #mic-access-tool-box.opened-mic-access-tool {
+          visibility: visible !important; opacity: 1 !important; pointer-events: auto !important;
+        }
+      }
+    </style>
+</head>
+<body>
+
+
+    <div class="mobile-search-panel" id="mobile-search-panel">
+      <div class="search-wrapper">
+        <input type="text" id="mobile-search-input" placeholder="Search products..." autocomplete="off">
+        <button class="search-submit" id="mobile-search-submit" title="Search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg>
+        </button>
+        <button class="close-search" id="close-mobile-search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+        </button>
+      </div>
+      <div class="search-results" id="mobile-search-results"></div>
+    </div>
+  
+<script>window.ZAPPY_WEBSITE_ID = "ea1c94c9-ae2b-45d4-a4ce-d213d15738e7";window.ZAPPY_API_BASE = "https://api.zappy5.com";</script><a class="skip-link" href="#main">Skip to main content</a>
+  <nav class="navbar">
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+  </button>
+
+  <button class="phone-header-btn" data-phone="" aria-label="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+  </button>
+
+  <div class="nav-container">
+    <div class="nav-brand">
+      <a href="/" class="logo-link"><img class="logo" src="/assets/site-home-image-1.webp" alt="ELVI"></a>
+    </div>
+
+    <ul class="nav-menu" id="navMenu">
+
+    <li class="menu-item-has-children zappy-products-dropdown">
+      <a href="/en/products">
+        Products
+        <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 9l6 6 6-6"></path>
+        </svg>
+      </a>
+      <ul class="sub-menu" id="zappy-nav-category-links">
+        <li><a href="/en/products">All Products</a></li>
+        <!-- Categories will be loaded dynamically -->
+      </ul>
+    </li>
+  <li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/style-guide">Style Guide</a></li><li><a href="/contact">Contact</a></li></ul><div class="nav-ecommerce-icons nav-icons-left"><a href="/login" class="login-link nav-login" title="Login"><svg class="login-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></a><a href="#cart" class="cart-link nav-cart" id="cart-drawer-toggle" title="Cart"><svg class="cart-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg><span class="cart-count">0</span></a><div class="nav-search-box">
+    <input type="text" class="nav-search-input" id="nav-search-input" placeholder="Search products..." autocomplete="off">
+    <button class="nav-search-btn" id="nav-search-btn" title="Search">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg>
+    </button>
+    <div class="nav-search-results" id="nav-search-results"></div>
+  </div></div><div class="nav-ecommerce-icons nav-icons-right"><button class="nav-search-toggle" id="mobile-search-toggle" title="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg></button></div>
+
+    
+  </div>
+</nav>
+<script>
+
+// Navbar Mobile Menu Toggle and Contrast Fix
+(function() {
+  // Use 'load' event instead of 'DOMContentLoaded' to ensure we run AFTER all other scripts
+  window.addEventListener('load', function() {
+    
+    // FIX MOBILE BUTTON CONTRAST
+    // Detect navbar background color and apply contrasting color to mobile buttons
+    const navbar = document.querySelector('.navbar, nav, header');
+    if (!navbar) {
+      console.log('[Navbar] Navbar element not found');
+      return;
+    }
+    
+    // DECLARE VARIABLES EARLY to avoid Temporal Dead Zone errors
+    // These are used in multiple places below
+    let mobileToggle = document.getElementById('mobileToggle') ||
+                       document.querySelector('.mobile-toggle') ||
+                       document.querySelector('.hamburger') ||
+                       document.querySelector('.hamburger-menu') ||
+                       document.querySelector('.menu-toggle') ||
+                       document.querySelector('.burger-menu') ||
+                       document.querySelector('[aria-label="Menu"]') ||
+                       document.querySelector('[aria-label="תפריט"]');
+    
+    const phoneBtn = document.querySelector('.phone-header-btn');
+    
+    const computedStyle = window.getComputedStyle(navbar);
+    let bgColor = computedStyle.backgroundColor;
+    
+    console.log('[Navbar] Initial navbar background:', bgColor);
+    
+    // Check if background is transparent or rgba with 0 alpha
+    const isTransparent = bgColor === 'transparent' || 
+                         bgColor === 'rgba(0, 0, 0, 0)' ||
+                         (bgColor.startsWith('rgba') && bgColor.includes(', 0)'));
+    
+    if (isTransparent) {
+      // Check for background-image or gradient
+      const bgImage = computedStyle.backgroundImage;
+      if (bgImage && bgImage !== 'none') {
+        console.log('[Navbar] Navbar has background image/gradient, using dark text');
+        bgColor = 'rgb(240, 240, 240)'; // Assume light background
+      } else {
+        // Transparent navbar - check body background
+        const bodyBg = window.getComputedStyle(document.body).backgroundColor;
+        console.log('[Navbar] Navbar transparent, using body background:', bodyBg);
+        bgColor = bodyBg;
+      }
+    }
+    
+    // Calculate luminance to determine if background is light or dark
+    const rgb = bgColor.match(/\d+/g);
+    if (rgb && rgb.length >= 3) {
+      const r = parseInt(rgb[0]);
+      const g = parseInt(rgb[1]);
+      const b = parseInt(rgb[2]);
+      const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+      
+      // Mobile button colors are set by Claude's AI-generated CSS (same as .nav-menu a)
+      // No dynamic color overrides needed - colors come from the generated navbar CSS
+      console.log('[Navbar] Mobile button colors preserved from Claude CSS (luminance:', luminance.toFixed(2) + ')');
+      
+      // FIX ICON SIZES - Ensure SVGs are properly sized and visible
+      // INJECT CRITICAL CSS TO OVERRIDE ANY CONFLICTING RULES
+      const criticalCSS = document.createElement('style');
+      criticalCSS.id = 'zappy-mobile-nav-fix';
+      const htmlLang = document.documentElement.lang || 'en';
+      const htmlDir = document.documentElement.dir || 'ltr';
+      // Check both dir attribute AND lang for RTL detection
+      // dir="rtl" is the most reliable indicator
+      const isRTL = htmlDir === 'rtl' || htmlLang === 'he' || htmlLang === 'ar';
+      
+      criticalCSS.textContent = `
+        /* Hide mobile buttons on desktop, show only on mobile */
+        @media (min-width: 769px) {
+          .mobile-toggle,
+          .phone-header-btn {
+            display: none !important;
+          }
+        }
+        
+        /* Show and position mobile buttons correctly on mobile */
+        @media (max-width: 768px) {
+          .navbar,
+          nav.navbar {
+            min-height: 70px !important;
+          }
+
+          .mobile-toggle,
+          .phone-header-btn {
+            position: absolute !important;
+            top: 0 !important;
+            bottom: 0 !important;
+            margin-top: auto !important;
+            margin-bottom: auto !important;
+            transform: none !important;
+            z-index: 1001 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 36px !important;
+            height: 36px !important;
+            border-radius: 50% !important;
+            border: none !important;
+            cursor: pointer !important;
+            padding: 6px !important;
+            background: none !important;
+            color: var(--nav-text, var(--text-dark)) !important;
+            touch-action: manipulation !important;
+            -webkit-tap-highlight-color: transparent !important;
+          }
+
+          html[data-zappy-site-type="ecommerce"] .phone-header-btn,
+          body[data-zappy-site-type="ecommerce"] .phone-header-btn,
+          html[data-zappy-site-type="ecommerce"] header .phone-header-btn,
+          html[data-zappy-site-type="ecommerce"] nav .phone-header-btn {
+            display: none !important;
+            visibility: hidden !important;
+            width: 0 !important;
+            height: 0 !important;
+            min-width: 0 !important;
+            overflow: hidden !important;
+          }
+          
+          /* LTR positioning (default): hamburger LEFT, phone RIGHT */
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .mobile-toggle,
+          html[dir="ltr"] .mobile-toggle {
+            left: 12px !important;
+            right: auto !important;
+          }
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .phone-header-btn,
+          html[dir="ltr"] .phone-header-btn {
+            right: 12px !important;
+            left: auto !important;
+          }
+          
+          /* RTL positioning: hamburger RIGHT, phone LEFT */
+          html[dir="rtl"] .mobile-toggle,
+          html[lang="he"] .mobile-toggle,
+          html[lang="ar"] .mobile-toggle {
+            right: 12px !important;
+            left: auto !important;
+          }
+          html[dir="rtl"] .phone-header-btn,
+          html[lang="he"] .phone-header-btn,
+          html[lang="ar"] .phone-header-btn {
+            left: 12px !important;
+            right: auto !important;
+          }
+          
+          /* CRITICAL: Ensure nav-container has min-height on mobile */
+          /* All children are positioned absolutely/fixed on mobile, so height:auto collapses to 0 */
+          .nav-container {
+            min-height: 70px !important;
+            position: relative !important;
+          }
+          
+          /* Ensure SVG icons are properly sized and inherit color */
+          .mobile-toggle svg,
+          .phone-header-btn svg {
+            width: 24px !important;
+            height: 24px !important;
+            /* Don't force display - let JavaScript control hamburger/close toggle */
+          }
+          
+          /* Reset nav-cta-container on mobile - remove desktop box-shadow/padding */
+          /* that creates a visible ghost box when CTA button is hidden */
+          .nav-cta-container {
+            box-shadow: none !important;
+            padding: 0 !important;
+          }
+          
+          /* Hide nav-cta-container entirely on mobile when there's no lang-switcher */
+          /* (only the CTA button is inside, and it's hidden on mobile) */
+          .nav-cta-container:not(:has(.lang-switcher)) {
+            display: none !important;
+          }
+          
+          /* CRITICAL: Prevent hero image fade gradient from bleeding over headline text */
+          /* The .image-fade-gradient has bottom: -30px (extends below parent) */
+          /* On mobile stacked layout, this overlaps the h1 text below the image */
+          .hero-image-column {
+            overflow: hidden !important;
+          }
+          .image-fade-gradient {
+            bottom: 0 !important;
+          }
+          
+          /* Hide desktop language switcher on mobile - hamburger menu handles it */
+          /* High specificity to override stored CSS */
+          .lang-switcher,
+          .nav-cta-container .lang-switcher,
+          .nav-container .lang-switcher,
+          .navbar .lang-switcher,
+          .navbar .nav-cta-container .lang-switcher {
+            display: none !important;
+          }
+        }
+      `;
+      
+      // Remove existing fix if present and inject new one
+      const existing = document.getElementById('zappy-mobile-nav-fix');
+      if (existing) existing.remove();
+      document.head.appendChild(criticalCSS);
+      
+      console.log('[Navbar] Critical CSS injected for mobile nav positioning');
+      
+      // ONLY apply inline positioning styles on mobile viewport
+      // On desktop, the CSS handles hiding these buttons with display: none
+      // Inline styles were breaking desktop layout by overriding CSS
+      const isMobileViewport = window.innerWidth <= 768;
+      
+      if (mobileToggle) {
+        // Icon sizing applies to all viewports for consistency
+        const hamburgerIcon = mobileToggle.querySelector('.hamburger-icon');
+        const closeIcon = mobileToggle.querySelector('.close-icon');
+        
+        if (hamburgerIcon) {
+          hamburgerIcon.style.setProperty('width', '24px', 'important');
+          hamburgerIcon.style.setProperty('height', '24px', 'important');
+          hamburgerIcon.style.setProperty('display', 'block', 'important'); // Show hamburger by default
+        }
+        if (closeIcon) {
+          closeIcon.style.setProperty('width', '24px', 'important');
+          closeIcon.style.setProperty('height', '24px', 'important');
+          closeIcon.style.setProperty('display', 'none', 'important'); // Hide close icon by default
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          mobileToggle.style.setProperty('position', 'absolute', 'important');
+          mobileToggle.style.setProperty('top', '0', 'important');
+          mobileToggle.style.setProperty('bottom', '0', 'important');
+          mobileToggle.style.setProperty('margin-top', 'auto', 'important');
+          mobileToggle.style.setProperty('margin-bottom', 'auto', 'important');
+          mobileToggle.style.setProperty('transform', 'none', 'important');
+          mobileToggle.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          
+          console.log('[Navbar] Mobile toggle positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          mobileToggle.style.removeProperty('position');
+          mobileToggle.style.removeProperty('top');
+          mobileToggle.style.removeProperty('transform');
+          mobileToggle.style.removeProperty('z-index');
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared mobile toggle inline positioning');
+        }
+      }
+      
+      if (phoneBtn) {
+        // Icon sizing applies to all viewports
+        const phoneIcon = phoneBtn.querySelector('svg');
+        if (phoneIcon) {
+          phoneIcon.style.width = '24px';
+          phoneIcon.style.height = '24px';
+          phoneIcon.setAttribute('width', '24');
+          phoneIcon.setAttribute('height', '24');
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          phoneBtn.style.setProperty('position', 'absolute', 'important');
+          phoneBtn.style.setProperty('top', '0', 'important');
+          phoneBtn.style.setProperty('bottom', '0', 'important');
+          phoneBtn.style.setProperty('margin-top', 'auto', 'important');
+          phoneBtn.style.setProperty('margin-bottom', 'auto', 'important');
+          phoneBtn.style.setProperty('transform', 'none', 'important');
+          phoneBtn.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          
+          console.log('[Navbar] Phone button positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          phoneBtn.style.removeProperty('position');
+          phoneBtn.style.removeProperty('top');
+          phoneBtn.style.removeProperty('transform');
+          phoneBtn.style.removeProperty('z-index');
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared phone button inline positioning');
+        }
+      }
+    } else {
+      console.log('[Navbar] Could not parse background color:', bgColor);
+    }
+    
+    // MOBILE MENU TOGGLE
+    // Re-query in case DOM changed (mobileToggle already declared at top of function)
+    mobileToggle = document.getElementById('mobileToggle') ||
+                   document.querySelector('.mobile-toggle') ||
+                   document.querySelector('.hamburger') ||
+                   document.querySelector('.hamburger-menu') ||
+                   document.querySelector('.menu-toggle') ||
+                   document.querySelector('.burger-menu') ||
+                   document.querySelector('[aria-label="Menu"]') ||
+                   document.querySelector('[aria-label="תפריט"]');
+    
+    // EXPANDED SEARCH: Find nav menu by ID or class
+    const navMenu = document.getElementById('navMenu') ||
+                  document.querySelector('.nav-menu') ||
+                  document.querySelector('.nav-links') ||
+                  document.querySelector('nav ul:not(.submenu)');
+    
+    if (!mobileToggle || !navMenu) {
+      console.log('[Navbar] Mobile toggle or menu not found:', { toggle: !!mobileToggle, menu: !!navMenu });
+      return;
+    }
+    
+    // Ensure navMenu has ID for CSS targeting
+    if (!navMenu.id) {
+      navMenu.id = 'navMenu';
+    }
+    
+    console.log('[Navbar] Initializing mobile menu...');
+    
+    // Remove any existing event listeners by cloning the button
+    const newToggle = mobileToggle.cloneNode(true);
+    mobileToggle.parentNode.replaceChild(newToggle, mobileToggle);
+    
+    // Toggle menu handler (shared by click and touchend)
+    function handleToggle(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const hamburgerIcon = newToggle.querySelector('.hamburger-icon');
+      const closeIcon = newToggle.querySelector('.close-icon');
+      const isActive = navMenu.classList.contains('active');
+      
+      if (isActive) {
+        // Close menu
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed');
+      } else {
+        // Open menu
+        navMenu.classList.add('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'none', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'block', 'important');
+        document.body.style.overflow = 'hidden';
+        console.log('[Navbar] Menu opened');
+      }
+    }
+    
+    // Use click for desktop/emulation and touchend as iOS Safari fallback.
+    // Prevent double-fire with a timestamp guard.
+    var lastToggleTime = 0;
+    function guardedToggle(e) {
+      var now = Date.now();
+      if (now - lastToggleTime < 300) return;
+      lastToggleTime = now;
+      handleToggle(e);
+    }
+    
+    newToggle.addEventListener('click', guardedToggle);
+    newToggle.addEventListener('touchend', guardedToggle);
+    
+    // Close menu when clicking nav links (but NOT dropdown toggles)
+    const navLinks = navMenu.querySelectorAll('a');
+    navLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        // Don't close if it's a dropdown child (unless it's a real navigation link)
+        if (this.getAttribute('href') === '#') return;
+        
+        const hamburgerIcon = newToggle.querySelector('.hamburger-icon');
+        const closeIcon = newToggle.querySelector('.close-icon');
+        
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed (link clicked)');
+      });
+    });
+    
+    // DROPDOWN MENU TOGGLE (for mobile and touch devices)
+    var dropdownToggles = navMenu.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(function(toggle) {
+      toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var parent = this.closest('.nav-dropdown');
+        if (!parent) return;
+        
+        // Close other open dropdowns at the same level
+        var siblings = parent.parentNode.querySelectorAll('.nav-dropdown.open');
+        siblings.forEach(function(sib) {
+          if (sib !== parent) sib.classList.remove('open');
+        });
+        
+        parent.classList.toggle('open');
+        console.log('[Navbar] Dropdown toggled:', parent.classList.contains('open') ? 'open' : 'closed');
+      });
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        var openDropdowns = document.querySelectorAll('.nav-dropdown.open');
+        openDropdowns.forEach(function(dd) { dd.classList.remove('open'); });
+      }
+    });
+    
+    console.log('[Navbar] Dropdown handlers initialized for ' + dropdownToggles.length + ' dropdowns');
+    
+    // Phone button functionality (phoneBtn already declared at top of function)
+    if (phoneBtn) {
+      phoneBtn.addEventListener('click', function() {
+        // Get phone number from placeholder in page or use default
+        const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+        const phoneNumber = phoneLinks.length > 0 
+          ? phoneLinks[0].getAttribute('href').replace('tel:', '')
+          : '[business_phone]';
+        
+        window.location.href = 'tel:' + phoneNumber;
+        console.log('[Navbar] Phone button clicked');
+      });
+    }
+    
+    console.log('[Navbar] Mobile menu initialized successfully');
+    
+    // WhatsApp button visibility is now controlled via CSS (siteSettings).
+    // No JS-based desktop hiding — the button is visible on both mobile and desktop by default.
+  });
+})();
+
+</script>
+  
+  <main id="main">
+    <section data-band-index="0" class="home-hero-section" data-layout-spec="Home-hero" data-hero-type="fullscreen-scrim">
+  <!-- Background Image -->
+  <div class="home-hero-bg">
+    <img loading="eager" fetchpriority="high" data-hero-bg="true" data-placeholder="home-hero-image-1" data-context="Urban family fashion moment in warm natural daylight — a stylish mother and child walking together on a sunlit city street, both wearing modern minimalist everyday clothing in earthy tones (cream, olive, warm beige). Cinematic editorial photography, shallow depth of field, soft bokeh background, tactile textile atmosphere, premium fashion magazine aesthetic." width="1200" height="800" src="/assets/site-home-hero-image-1.webp" alt="A stylish family in modern everyday ELVI clothing walking on a sunlit urban street">
+  </div>
+
+  <!-- Scrim overlay -->
+  <div class="home-hero-scrim" aria-hidden="true"></div>
+
+  <!-- Decorative organic leaf accent -->
+  <svg class="home-hero-leaf-accent" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 180 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M90,10 C130,30 165,70 160,120 C155,165 120,195 90,210 C60,195 25,165 20,120 C15,70 50,30 90,10 Z" stroke="#3D6147" stroke-width="1.5" fill="none" opacity="0.07"></path>
+    <path d="M90,10 L90,210" stroke="#3D6147" stroke-width="1" fill="none" opacity="0.07"></path>
+    <path d="M90,60 C110,70 130,85 140,105" stroke="#3D6147" stroke-width="1" fill="none" opacity="0.07"></path>
+    <path d="M90,90 C70,100 50,115 40,135" stroke="#3D6147" stroke-width="1" fill="none" opacity="0.07"></path>
+    <path d="M90,120 C112,128 128,142 134,160" stroke="#3D6147" stroke-width="1" fill="none" opacity="0.07"></path>
+  </svg>
+
+  <!-- Content Card -->
+  <div class="home-hero-card-wrapper">
+    <article class="home-hero-card">
+      <span class="home-hero-eyebrow">Conscious Everyday Fashion</span>
+      <h1 class="home-hero-h1">Dress with Intention.<br>Live with Style.</h1>
+      <h3 class="home-hero-subtitle">Modern wardrobe essentials thoughtfully crafted for adults and children — quality pieces that move with your life, season after season.</h3>
+      <div class="home-hero-ctas">
+        <a href="/contact" class="home-hero-btn-primary">Shop the Collection</a>
+        <a href="/about" class="home-hero-btn-secondary">Our Story</a>
+      </div>
+    </article>
+  </div>
+
+  <!-- Bottom divider -->
+  <div class="home-hero-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1440 72" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,72 L0,42 Q120,28 240,38 T480,32 Q600,26 720,36 T960,30 Q1080,24 1200,34 T1440,38 L1440,72 Z" fill="#F5F1EB"></path>
+    </svg>
+  </div>
+</section>
+
+    <section class="featured-products-section" id="featured-products" data-zappy-dynamic="true">
+      <div class="container">
+        <h2 class="section-title">Featured Products</h2>
+        <div class="product-grid featured-grid" id="zappy-featured-products">
+          <div class="loading-products">Loading products...</div>
+        </div>
+        <div class="view-all-products">
+          <a href="/products" class="btn btn-primary">View All Products →</a>
+        </div>
+      </div>
+    </section>
+  
+
+    <section class="featured-categories-section" id="featured-categories" data-zappy-dynamic="true">
+      <div class="container">
+        <h2 class="section-title">Shop by Category</h2>
+        <div class="category-blocks" id="zappy-featured-categories">
+          <div class="loading-categories">Loading products...</div>
+        </div>
+      </div>
+    </section>
+  
+
+<section data-band-index="1" class="home-brand-story-section" data-layout-spec="Home-brand-story">
+
+  <!-- Grain texture overlay -->
+  <div class="hbs-grain-overlay" aria-hidden="true"></div>
+
+  <!-- Botanical line decoration -->
+  <svg class="hbs-botanical-line" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 120 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M60,10 C60,10 55,60 40,90 C25,120 20,150 60,180 C100,210 95,240 80,280 C70,305 60,320 60,320" stroke="#8B6F47" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.12"></path>
+    <path d="M60,80 C60,80 35,70 22,55" stroke="#8B6F47" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.10"></path>
+    <path d="M60,130 C60,130 85,118 98,100" stroke="#8B6F47" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.10"></path>
+    <path d="M60,200 C60,200 38,192 28,178" stroke="#8B6F47" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.10"></path>
+  </svg>
+
+  <div class="hbs-container">
+
+    <!-- LEFT: Content Column -->
+    <div class="hbs-content-col">
+
+      <span class="hbs-eyebrow">Our Philosophy</span>
+
+      <h2 class="hbs-heading">Dressing with intention,<br>one piece at a time.</h2>
+
+      <h3 class="hbs-subheading">Everyday ease, tactile materials &amp; timeless shapes</h3>
+
+      <p class="hbs-body">At ELVI, we believe a wardrobe should feel as good as it looks. Each piece is chosen for its honest construction — natural fibres, considered cuts, and the kind of quiet confidence that carries you from morning school runs to city evenings without missing a beat.</p>
+
+      <p class="hbs-body">Our sourcing mindset is rooted in responsibility: slow production, transparent supply chains, and fabrics that age gracefully. We design for real life — for the bodies that live in it, the families that move through it, and the moments that matter most.</p>
+
+      <!-- Values Row -->
+      <div class="hbs-values-row">
+
+        <div class="hbs-value-item">
+          <div class="hbs-value-icon" aria-hidden="true">
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
+              <path d="M14 3C14 3 8 7 5 13c-2 4-1 9 4 11 2 1 5 1 7 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"></path>
+              <path d="M14 3c0 0 6 4 9 10 2 4 1 9-4 11-2 1-5 1-7 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"></path>
+              <line x1="14" y1="24" x2="14" y2="28" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></line>
+            </svg>
+          </div>
+          <div class="hbs-value-text">
+            <strong>Conscious Fabrics</strong>
+            <span>Natural, certified, and kind to skin</span>
+          </div>
+        </div>
+
+        <div class="hbs-value-item">
+          <div class="hbs-value-icon" aria-hidden="true">
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
+              <rect x="3" y="8" width="10" height="14" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"></rect>
+              <rect x="15" y="4" width="10" height="14" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"></rect>
+              <path d="M8 22 Q14 20 18 18" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"></path>
+            </svg>
+          </div>
+          <div class="hbs-value-text">
+            <strong>City-to-Home</strong>
+            <span>Versatile pieces for every context</span>
+          </div>
+        </div>
+
+        <div class="hbs-value-item">
+          <div class="hbs-value-icon" aria-hidden="true">
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
+              <ellipse cx="14" cy="14" rx="10" ry="12" stroke="currentColor" stroke-width="1.5" fill="none"></ellipse>
+              <path d="M8 14 Q14 10 20 14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"></path>
+              <path d="M9 18 Q14 22 19 18" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"></path>
+            </svg>
+          </div>
+          <div class="hbs-value-text">
+            <strong>Real-Life Fit</strong>
+            <span>Comfortable for every body, every day</span>
+          </div>
+        </div>
+
+      </div>
+      <!-- /Values Row -->
+
+    </div>
+    <!-- /LEFT -->
+
+    <!-- RIGHT: Imagery Column -->
+    <div class="hbs-image-col">
+
+      <!-- Backplate paper tile -->
+      <div class="hbs-backplate" aria-hidden="true">
+        <img loading="lazy" decoding="async" data-placeholder="home-brand-story-image-2" data-context="A softly styled flat-lay of folded natural linen and cotton garments in cream, sage, and warm terracotta tones arranged on a textured linen surface, evoking conscious fashion and tactile quality, editorial minimal aesthetic, warm natural light" width="280" height="340" src="/assets/site-home-brand-story-image-2.webp" alt="Folded natural fabric garments in earthy tones">
+      </div>
+
+      <!-- Main image -->
+      <div class="hbs-main-image-wrap">
+        <img loading="lazy" decoding="async" data-placeholder="home-brand-story-image-1" data-context="A stylish woman wearing a flowing cream linen dress with natural texture, standing in soft golden afternoon light near a minimalist interior window, calm and intentional mood, editorial fashion photography, warm neutral palette, sustainable fashion brand" width="520" height="680" src="/assets/site-home-brand-story-image-1.webp" alt="Woman wearing an elegant cream linen dress in natural light">
+      </div>
+
+    </div>
+    <!-- /RIGHT -->
+
+  </div>
+  <!-- /hbs-container -->
+
+  <!-- Bottom diagonal divider: dusty blue fading into sand beige -->
+  <div class="hbs-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="hbs-divider-grad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#7A93AC" stop-opacity="0.18"></stop>
+          <stop offset="55%" stop-color="#C5B9A8" stop-opacity="0.22"></stop>
+          <stop offset="100%" stop-color="#F1E7DA" stop-opacity="1"></stop>
+        </linearGradient>
+      </defs>
+      <path d="M0,90 L0,38 Q180,20 360,42 T720,28 Q900,16 1080,36 T1440,22 L1440,90 Z" fill="#F5F1EB"></path>
+      <path d="M0,90 L0,55 Q200,40 400,58 T800,44 Q1000,34 1200,52 T1440,42 L1440,90 Z" fill="#F5F1EB"></path>
+    </svg>
+  </div>
+
+</section>
+
+<section data-band-index="2" class="home-benefits-section" data-layout-spec="Home-benefits">
+  <!-- Grain texture overlay -->
+  <div class="home-benefits-grain" aria-hidden="true"></div>
+
+  <!-- Botanical line decoration -->
+  <svg class="home-benefits-botanical" aria-hidden="true" data-no-icon-edit="true" viewBox="0 0 120 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M60 320 Q60 240 60 180 Q60 120 60 0" stroke="#8B6F47" stroke-width="1.2" stroke-linecap="round"></path>
+    <path d="M60 260 Q30 240 10 210" stroke="#8B6F47" stroke-width="1" stroke-linecap="round"></path>
+    <path d="M60 220 Q90 200 110 170" stroke="#8B6F47" stroke-width="1" stroke-linecap="round"></path>
+    <path d="M60 180 Q35 158 18 135" stroke="#8B6F47" stroke-width="1" stroke-linecap="round"></path>
+    <path d="M60 140 Q85 120 100 95" stroke="#8B6F47" stroke-width="1" stroke-linecap="round"></path>
+    <ellipse cx="10" cy="208" rx="12" ry="7" transform="rotate(-30 10 208)" stroke="#8B6F47" stroke-width="1" fill="none"></ellipse>
+    <ellipse cx="110" cy="168" rx="12" ry="7" transform="rotate(25 110 168)" stroke="#8B6F47" stroke-width="1" fill="none"></ellipse>
+    <ellipse cx="18" cy="133" rx="11" ry="6" transform="rotate(-40 18 133)" stroke="#8B6F47" stroke-width="1" fill="none"></ellipse>
+    <ellipse cx="100" cy="93" rx="11" ry="6" transform="rotate(20 100 93)" stroke="#8B6F47" stroke-width="1" fill="none"></ellipse>
+  </svg>
+
+  <div class="home-benefits-container">
+    <!-- Section Header -->
+    <header class="home-benefits-header">
+      <p class="home-benefits-eyebrow">Why ELVI</p>
+      <h2 class="home-benefits-title">Dressed with intention.<br>Worn with ease.</h2>
+      <p class="home-benefits-subtitle">Three principles that shape every piece we make — and every choice you wear.</p>
+    </header>
+
+    <nav class="zappy-catalog-menu ltr" id="zappy-catalog-menu" dir="ltr" style="display:none">
+      <div class="catalog-menu-container">
+        <a href="/en/products" class="catalog-menu-item catalog-menu-all">All Products</a>
+        <div class="catalog-menu-categories" id="zappy-category-links">
+          <!-- Categories will be loaded dynamically -->
+        </div>
+      </div>
+    </nav>
+  
+
+    <!-- Cards Grid -->
+    <div class="home-benefits-grid">
+
+      <!-- Card 1: Capsule Wardrobe -->
+      <article class="home-benefits-card home-benefits-card--warm">
+        <figure class="home-benefits-card-image-wrap">
+          <img loading="lazy" decoding="async" data-placeholder="home-benefits-image-1" data-context="Elegant flat lay of a capsule wardrobe — 5 to 6 minimal clothing pieces in earthy tones (cream, sage, terracotta) arranged on a warm linen surface. Folded knit sweaters, a simple blazer, and neutral trousers. Soft natural light, editorial fashion photography style." width="600" height="400" src="/assets/site-home-benefits-image-1.webp" alt="Capsule wardrobe essentials in earthy tones" class="home-benefits-card-img">
+        </figure>
+        <div class="home-benefits-card-body">
+          <span class="home-benefits-card-tag">Simplicity</span>
+          <h3 class="home-benefits-card-title">The Capsule Philosophy</h3>
+          <p class="home-benefits-card-text">Every ELVI piece is designed to work with what you already own. Timeless silhouettes, considered proportions, and a palette rooted in nature mean fewer decisions and more confidence — morning after morning.</p>
+        </div>
+      </article>
+
+      <!-- Card 2: Comfort & Quality -->
+      <article class="home-benefits-card home-benefits-card--neutral">
+        <figure class="home-benefits-card-image-wrap">
+          <img loading="lazy" decoding="async" data-placeholder="home-benefits-image-2" data-context="Close-up detail shot of premium natural fabric texture — soft organic cotton or linen weave in a warm cream or oat color. A woman\" s="" hand="" gently="" touches="" the="" fabric.="" macro="" photography,="" warm="" studio="" lighting,="" tactile="" and="" luxurious="" feel,="" fashion="" editorial.'="" width="600" height="400" src="/assets/site-home-benefits-image-2.webp" alt="Premium natural fabric texture detail" class="home-benefits-card-img">
+        </figure>
+        <div class="home-benefits-card-body">
+          <span class="home-benefits-card-tag">Quality</span>
+          <h3 class="home-benefits-card-title">Comfort, Every Single Day</h3>
+          <p class="home-benefits-card-text">We source only natural, breathable fabrics that feel as good at 8am as they do at 8pm. Crafted for real life — relaxed enough to move freely, refined enough to go anywhere. Quality you can feel with the first touch.</p>
+        </div>
+      </article>
+
+      <!-- Card 3: Sustainability -->
+      <article class="home-benefits-card home-benefits-card--sage">
+        <figure class="home-benefits-card-image-wrap">
+          <img loading="lazy" decoding="async" data-placeholder="home-benefits-image-3" data-context="Sustainable fashion editorial image — a woman in a simple, elegant sage green linen dress standing in a sunlit garden or against a natural textured wall. Minimal jewelry, relaxed posture, warm golden-hour light. Conscious fashion, modern and stylish yet grounded." width="600" height="400" src="/assets/site-home-benefits-image-3.webp" alt="Woman in sustainable ELVI linen dress in natural setting" class="home-benefits-card-img">
+        </figure>
+        <div class="home-benefits-card-body">
+          <span class="home-benefits-card-tag">Sustainability</span>
+          <h3 class="home-benefits-card-title">Style That Doesn't Cost the Earth</h3>
+          <p class="home-benefits-card-text">Modern values, beautiful results. ELVI is built on transparent sourcing, low-impact production, and packaging that leaves no trace. Looking good and doing good are never in conflict here — they are the same thing.</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+
+  <!-- Bottom divider: terracotta brush-like wave transitioning to dark testimonial section -->
+  <div class="home-benefits-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,90 L0,52 Q60,38 130,48 Q200,58 270,42 Q340,28 420,44 Q500,60 580,46 Q660,32 740,50 Q820,66 900,48 Q980,30 1060,46 Q1140,62 1220,44 Q1300,28 1370,48 Q1410,56 1440,50 L1440,90 Z" fill="#2B2621"></path>
+    </svg>
+  </div>
+</section>
+
+<section data-band-index="3" class="home-testimonials-section" data-layout-spec="Home-testimonials">
+
+  <!-- Grain texture overlay -->
+  <div class="home-testimonials-section__grain" aria-hidden="true"></div>
+
+  <!-- Content container -->
+  <div class="home-testimonials-section__container">
+
+    <!-- Intro block -->
+    <div class="home-testimonials-section__intro">
+      <span class="home-testimonials-section__eyebrow">Worn &amp; Loved</span>
+      <h2 class="home-testimonials-section__heading">What Our Community Is Saying</h2>
+      <p class="home-testimonials-section__subtext">Real voices from style-aware families who found their confidence — and their children's comfort — through ELVI.</p>
+    </div>
+
+    <!-- Review grid: 1 large + 3 supporting -->
+    <div class="home-testimonials-section__grid">
+
+      <!-- Large featured quote -->
+      <article class="home-testimonials-section__card home-testimonials-section__card--featured">
+        <div class="home-testimonials-section__quote-mark" aria-hidden="true">“</div>
+        <blockquote class="home-testimonials-section__quote">
+          I've been searching for years for a brand that genuinely understands how to dress a family without compromising on quality or style. ELVI changed everything for us — the fabrics are so thoughtful, and my daughter refuses to wear anything else. The pieces feel timeless in a way that actually matters.
+        </blockquote>
+        <footer class="home-testimonials-section__reviewer">
+          <div class="home-testimonials-section__reviewer-avatar">
+            <span>N</span>
+          </div>
+          <div class="home-testimonials-section__reviewer-info">
+            <cite class="home-testimonials-section__reviewer-name">Noa Levy</cite>
+            <span class="home-testimonials-section__reviewer-label">Mother of two · Tel Aviv</span>
+          </div>
+          <div class="home-testimonials-section__stars" aria-label="5 out of 5 stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+        </footer>
+      </article>
+
+      <!-- Supporting quote 1 -->
+      <article class="home-testimonials-section__card">
+        <div class="home-testimonials-section__quote-mark home-testimonials-section__quote-mark--sm" aria-hidden="true">“</div>
+        <blockquote class="home-testimonials-section__quote">The linen trousers I ordered last season are still my most-worn piece. They've held their shape beautifully — proof that investing in quality really pays off.</blockquote>
+        <footer class="home-testimonials-section__reviewer">
+          <div class="home-testimonials-section__reviewer-avatar">
+            <span>S</span>
+          </div>
+          <div class="home-testimonials-section__reviewer-info">
+            <cite class="home-testimonials-section__reviewer-name">Sara Mizrahi</cite>
+            <span class="home-testimonials-section__reviewer-label">Fashion enthusiast · Jerusalem</span>
+          </div>
+          <div class="home-testimonials-section__stars" aria-label="5 out of 5 stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+        </footer>
+      </article>
+
+      <!-- Supporting quote 2 -->
+      <article class="home-testimonials-section__card">
+        <div class="home-testimonials-section__quote-mark home-testimonials-section__quote-mark--sm" aria-hidden="true">“</div>
+        <blockquote class="home-testimonials-section__quote">My kids are so comfortable in their ELVI pieces — they move freely, the materials are soft against their skin, and they actually want to wear them every day. That says everything.</blockquote>
+        <footer class="home-testimonials-section__reviewer">
+          <div class="home-testimonials-section__reviewer-avatar">
+            <span>M</span>
+          </div>
+          <div class="home-testimonials-section__reviewer-info">
+            <cite class="home-testimonials-section__reviewer-name">Maya Cohen</cite>
+            <span class="home-testimonials-section__reviewer-label">Parent · Haifa</span>
+          </div>
+          <div class="home-testimonials-section__stars" aria-label="5 out of 5 stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+        </footer>
+      </article>
+
+      <!-- Supporting quote 3 with image anchor -->
+      <article class="home-testimonials-section__card home-testimonials-section__card--with-image">
+        <div class="home-testimonials-section__quote-mark home-testimonials-section__quote-mark--sm" aria-hidden="true">“</div>
+        <blockquote class="home-testimonials-section__quote">There's a quiet confidence that comes with wearing ELVI. The silhouettes are clean, the palette is effortlessly wearable, and I always feel put-together without trying too hard.</blockquote>
+        <footer class="home-testimonials-section__reviewer">
+          <div class="home-testimonials-section__reviewer-avatar">
+            <span>T</span>
+          </div>
+          <div class="home-testimonials-section__reviewer-info">
+            <cite class="home-testimonials-section__reviewer-name">Tamar Ben-David</cite>
+            <span class="home-testimonials-section__reviewer-label">Stylist · Tel Aviv</span>
+          </div>
+          <div class="home-testimonials-section__stars" aria-label="5 out of 5 stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+        </footer>
+        <!-- Candid lifestyle image anchored at card edge -->
+        <div class="home-testimonials-section__card-image-wrap">
+          <img loading="lazy" decoding="async" data-placeholder="home-testimonials-image-1" data-context="A candid close-up lifestyle shot of natural linen fabric texture and a woman\" s="" hand="" gently="" touching="" a="" soft="" woven="" garment,="" warm="" espresso="" and="" cream="" tones,="" editorial="" fashion="" photography,="" minimal="" intimate,="" shot="" on="" film,="" ambient="" light'="" width="220" height="160" src="/assets/site-home-testimonials-image-1.webp" alt="Close-up of ELVI natural fabric texture">
+        </div>
+      </article>
+
+    </div>
+    <!-- end grid -->
+
+  </div>
+  <!-- end container -->
+
+  <!-- Bottom gradient dissolve divider -->
+  <div class="home-testimonials-section__divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="dissolve-grad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#2B2621" stop-opacity="0"></stop>
+          <stop offset="100%" stop-color="#F1E7DA" stop-opacity="1"></stop>
+        </linearGradient>
+      </defs>
+      <path d="M0,90 L0,18 Q150,8 300,22 T600,12 Q750,4 900,18 T1200,10 L1200,90 Z" fill="#F5F1EB"></path>
+    </svg>
+  </div>
+
+</section>
+
+<section data-band-index="4" class="home-cta-section" data-layout-spec="Home-cta">
+  <!-- Botanical line decoration -->
+  <svg class="home-cta-botanical" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 120 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M60,10 C60,10 55,60 65,100 C75,140 50,170 60,210 C70,250 45,280 60,320 C75,360 55,390 60,410" stroke="#8B6F47" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.12"></path>
+    <path d="M60,80 C60,80 30,65 20,50" stroke="#8B6F47" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.10"></path>
+    <path d="M60,80 C60,80 90,65 100,50" stroke="#8B6F47" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.10"></path>
+    <path d="M62,150 C62,150 35,135 22,118" stroke="#8B6F47" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.10"></path>
+    <path d="M62,150 C62,150 88,132 98,115" stroke="#8B6F47" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.10"></path>
+    <path d="M60,230 C60,230 32,215 18,198" stroke="#8B6F47" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.09"></path>
+    <path d="M60,230 C60,230 86,212 102,196" stroke="#8B6F47" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.09"></path>
+    <path d="M61,305 C61,305 38,290 26,275" stroke="#8B6F47" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.08"></path>
+    <path d="M61,305 C61,305 84,288 96,272" stroke="#8B6F47" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.08"></path>
+  </svg>
+
+  <div class="home-cta-container">
+    <!-- Text block -->
+    <div class="home-cta-text">
+      <span class="home-cta-eyebrow">Our Story &amp; Values</span>
+      <h2 class="home-cta-heading">Let's Talk About
+Style, Family &amp; What We Stand For</h2>
+      <div class="home-cta-accent-line" aria-hidden="true"></div>
+      <p class="home-cta-body">Whether you're curious about our collections, our commitment to conscious fashion, or finding the perfect pieces for your family — we'd love to hear from you. Every conversation with ELVI begins with listening.</p>
+      <div class="home-cta-buttons">
+        <a href="/contact" class="home-cta-btn-primary">Get in Touch</a>
+        <a href="/about" class="home-cta-btn-secondary">Discover Our Story</a>
+      </div>
+    </div>
+
+    <!-- Still-life image -->
+    <figure class="home-cta-figure">
+      <img loading="lazy" decoding="async" data-placeholder="home-cta-image-1" data-context="A warm editorial still-life photograph for ELVI fashion brand: folded premium linen and cotton garments in cream, sage green, and terracotta tones arranged on a natural wooden surface, accompanied by a small ceramic vase with dried botanicals, soft natural window light casting gentle shadows, tactile and minimal, premium sustainable fashion mood" width="600" height="750" src="/assets/site-home-cta-image-1.webp" alt="ELVI clothing still-life — folded garments in natural tones with botanical accents" class="home-cta-img">
+      <div class="home-cta-img-grain" aria-hidden="true"></div>
+    </figure>
+  </div>
+</section>
+  </main>
+  
+  <footer class="site-footer" aria-label="Site Footer"> <div class="footer-container"> <div class="footer-top"> <div class="footer-col footer-brand"> <img src="/assets/elvi-fashion-apparel-logo.webp" alt="ELVI" class="logo"> <p class="footer-tagline">Thoughtfully crafted fashion for the style-aware. Wear what you love, love what you wear.</p> <div class="footer-badges"> <span class="badge"><i class="fas fa-truck"></i> Free Shipping</span> <span class="badge"><i class="fas fa-leaf"></i> Sustainably Made</span> </div> </div> <div class="footer-col footer-links"> <h3 class="footer-heading">Quick Links</h3> <ul class="footer-nav"> <li><a href="/">Home</a></li> <li><a href="/about">About</a></li> <li><a href="/style-guide">Style Guide</a></li> <li><a href="/contact">Contact</a></li> </ul> </div> <div class="footer-col footer-contact-col"> <h3 class="footer-heading">Get In Touch</h3> <ul class="footer-contact"> <li> <span class="contact-icon"><i class="fas fa-envelope"></i></span> <span class="contact-text"><a href="mailto:[business_email]">[business_email]</a></span> </li> <li> <span class="contact-icon"><i class="fas fa-phone"></i></span> <span class="contact-text"><a href="tel:[business_phone]">[business_phone]</a></span> </li> <li><a href="/"><span class="contact-icon"><i class="fas fa-map-marker-alt"></i></span> <span class="contact-text">[business_address]</span></a></li> </ul> </div> <div class="footer-col footer-social-col"> <h3 class="footer-heading">Follow Us</h3> <p class="footer-social-blurb">Stay inspired — follow ELVI for the latest looks and stories.</p> <div class="footer-social">    </div> </div> </div> <div class="footer-divider"></div> <div class="footer-bottom"> <p class="footer-copyright">© 2026 ELVI. All rights reserved.</p> <div class="footer-legal"> <a href="/privacy">Privacy Policy</a> <span class="footer-dot" aria-hidden="true">·</span> <a href="/terms">Terms &amp; Conditions</a><span class="separator">|</span>
+            <a href="/return-policy" aria-label="Return Policy">
+              Return Policy
+            </a> <span class="footer-dot" aria-hidden="true">·</span> <a href="/accessibility">Accessibility</a> <span class="footer-dot" aria-hidden="true">·</span> <a href="https://zappy5.com" target="_blank" class="zappy-attribution">Generated by Zappy</a> </div> </div> </div> </footer>
+  
+  <a href="https://wa.me/[whatsapp_handle]" class="whatsapp-float" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  
+  <div data-integration="accessibility:toolbar"></div>
+
+    <script src="/script.js"></script>
+
+    <script id="zappy-mobile-submenu-script">
+    (function() {
+      function initMobileSubmenuToggles() {
+        if (window.innerWidth > 768) {
+          document.querySelectorAll('.mobile-submenu-toggle').forEach(function(btn) { btn.remove(); });
+          document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) { menu.classList.remove('mobile-expanded'); });
+          return;
+        }
+        var items = document.querySelectorAll('.nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu)');
+        items.forEach(function(li) {
+          if (li.querySelector('.mobile-submenu-toggle')) return;
+          var submenu = li.querySelector('.sub-menu');
+          var parentLink = li.querySelector(':scope > a');
+          if (!submenu || !parentLink) return;
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'mobile-submenu-toggle';
+          toggleBtn.setAttribute('aria-label', 'Toggle submenu');
+          toggleBtn.setAttribute('type', 'button');
+          parentLink.insertAdjacentElement('afterend', toggleBtn);
+          toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) {
+              if (menu !== submenu) { menu.classList.remove('mobile-expanded'); var t = menu.parentElement.querySelector('.mobile-submenu-toggle'); if(t) t.classList.remove('expanded'); }
+            });
+            submenu.classList.toggle('mobile-expanded');
+            toggleBtn.classList.toggle('expanded');
+          });
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileSubmenuToggles); }
+      else { initMobileSubmenuToggles(); }
+      var resizeTimer; window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(initMobileSubmenuToggles, 250); });
+      // Re-initialize when mobile menu becomes visible (MutationObserver)
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes') {
+            var target = mutation.target;
+            if (target.classList && (target.classList.contains('active') || target.classList.contains('open'))) {
+              setTimeout(initMobileSubmenuToggles, 100);
+            }
+          }
+        });
+      });
+      setTimeout(function() {
+        document.querySelectorAll('.mobile-menu, .nav-menu, #navMenu, nav').forEach(function(menu) {
+          observer.observe(menu, { attributes: true, attributeFilter: ['class', 'style'] });
+        });
+      }, 500);
+    })();
+    </script>
+</body>
+</html>
